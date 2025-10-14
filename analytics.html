@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics - Elsewedy Cable Defect Detection</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+
+</head>
+<body>
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="./public/elswady.png" alt="Elsewedy Cables">
+    </div>
+    <ul class="sidebar-nav">
+      <li class="nav-item">
+        <a href="index.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="analytics.html" class="nav-link active">
+          <i class="bi bi-graph-up"></i>
+          <span>Analytics</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="reports.html" class="nav-link">
+          <i class="bi bi-file-text"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="upload.html" class="nav-link">
+          <i class="bi bi-cloud-upload"></i>
+          <span>Upload</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Page Header -->
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="page-title">Analytics & Statistics</h1>
+        <p class="page-subtitle">Comprehensive defect analysis and performance metrics</p>
+      </div>
+      <button class="btn btn-primary" onclick="openExportModal()">
+        <i class="bi bi-file-earmark-arrow-down"></i> Export Report
+      </button>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Total Defects</div>
+            </div>
+            <div class="stat-icon bg-danger-subtle text-danger">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+          </div>
+          <div class="stat-value">1,847</div>
+          <div class="stat-change negative">
+            <i class="bi bi-arrow-down"></i>
+            <span>8% from last month</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Detection Accuracy</div>
+            </div>
+            <div class="stat-icon bg-success-subtle text-success">
+              <i class="bi bi-bullseye"></i>
+            </div>
+          </div>
+          <div class="stat-value">98.5%</div>
+          <div class="stat-change positive">
+            <i class="bi bi-arrow-up"></i>
+            <span>2% from last month</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Avg Processing Time</div>
+            </div>
+            <div class="stat-icon bg-info-subtle text-info">
+              <i class="bi bi-clock"></i>
+            </div>
+          </div>
+          <div class="stat-value">1.2s</div>
+          <div class="stat-change positive">
+            <i class="bi bi-arrow-down"></i>
+            <span>15% faster</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div>
+              <div class="stat-label">Critical Defects</div>
+            </div>
+            <div class="stat-icon bg-warning-subtle text-warning">
+              <i class="bi bi-exclamation-circle"></i>
+            </div>
+          </div>
+          <div class="stat-value">127</div>
+          <div class="stat-change negative">
+            <i class="bi bi-arrow-up"></i>
+            <span>3% from last month</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Defect Detection Trend</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Defect Distribution</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="distributionChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-4 mb-4">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Defects by Type</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="typeChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Quality Rate Over Time</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="qualityChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="row g-4">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">System Performance Metrics</h3>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="p-3 bg-light rounded">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-secondary">Images Processed</span>
+                    <i class="bi bi-image text-info"></i>
+                  </div>
+                  <div class="h3 mb-0">24,567</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 bg-light rounded">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-secondary">False Positives</span>
+                    <i class="bi bi-x-circle text-warning"></i>
+                  </div>
+                  <div class="h3 mb-0">1.5%</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 bg-light rounded">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-secondary">System Uptime</span>
+                    <i class="bi bi-check-circle text-success"></i>
+                  </div>
+                  <div class="h3 mb-0">99.8%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Export Report Modal -->
+  <div class="modal fade" id="exportModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-file-earmark-text"></i> Defect Detection Report
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;" id="reportContent">
+          <!-- Report Header -->
+          <div class="text-center mb-4">
+            <img src="public/elswady.png" alt="Elsewedy Cables" style="max-width: 200px; margin-bottom: 1rem;">
+            <h2>Cable Defect Detection Report</h2>
+            <p class="text-secondary">Generated on <span id="reportDate"></span></p>
+          </div>
+
+          <!-- Executive Summary -->
+          <div class="mb-4">
+            <h4 class="mb-3">Executive Summary</h4>
+            <div class="row g-3">
+              <div class="col-md-3">
+                <div class="p-3 bg-ligth rounded text-center">
+                  <div class="text-secondary small mb-1">Total Inspections</div>
+                  <div class="h4 mb-0">24,567</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 bg-secondary rounded text-center">
+                  <div class="text-secondary small mb-1">Defects Found</div>
+                  <div class="h4 mb-0">1,847</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 bg-secondary rounded text-center">
+                  <div class="text-secondary small mb-1">Quality Rate</div>
+                  <div class="h4 mb-0">92.5%</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 bg-secondary rounded text-center">
+                  <div class="text-secondary small mb-1">Accuracy</div>
+                  <div class="h4 mb-0">98.5%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Defect Breakdown -->
+          <div class="mb-4">
+            <h4 class="mb-3">Defect Breakdown by Type</h4>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Defect Type</th>
+                  <th>Count</th>
+                  <th>Percentage</th>
+                  <th>Severity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Surface Scratch</td>
+                  <td>687</td>
+                  <td>37.2%</td>
+                  <td><span class="badge badge-medium">Medium</span></td>
+                </tr>
+                <tr>
+                  <td>Pin Hole</td>
+                  <td>423</td>
+                  <td>22.9%</td>
+                  <td><span class="badge badge-critical">Critical</span></td>
+                </tr>
+                <tr>
+                  <td>Cut</td>
+                  <td>389</td>
+                  <td>21.1%</td>
+                  <td><span class="badge badge-high">High</span></td>
+                </tr>
+                <tr>
+                  <td>Crack</td>
+                  <td>234</td>
+                  <td>12.7%</td>
+                  <td><span class="badge badge-high">High</span></td>
+                </tr>
+                <tr>
+                  <td>Surface Irregularity</td>
+                  <td>114</td>
+                  <td>6.2%</td>
+                  <td><span class="badge badge-low">Low</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Severity Distribution -->
+          <div class="mb-4">
+            <h4 class="mb-3">Severity Distribution</h4>
+            <div class="row g-3">
+              <div class="col-md-3">
+                <div class="p-3 bg-danger bg-opacity-10 rounded text-center">
+                  <div class="text-danger small mb-1">Critical</div>
+                  <div class="h4 mb-0 text-danger">127</div>
+                  <div class="small text-secondary">6.9%</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 bg-warning bg-opacity-10 rounded text-center">
+                  <div class="text-warning small mb-1">High</div>
+                  <div class="h4 mb-0 text-warning">623</div>
+                  <div class="small text-secondary">33.7%</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 bg-info bg-opacity-10 rounded text-center">
+                  <div class="text-info small mb-1">Medium</div>
+                  <div class="h4 mb-0 text-info">983</div>
+                  <div class="small text-secondary">53.2%</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 bg-success bg-opacity-10 rounded text-center">
+                  <div class="text-success small mb-1">Low</div>
+                  <div class="h4 mb-0 text-success">114</div>
+                  <div class="small text-secondary">6.2%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="mb-4">
+            <h4 class="mb-3">Recommendations</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Continue monitoring pin hole defects as they represent the highest critical severity
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Implement preventive maintenance to reduce surface scratches
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Review production line settings to minimize cutting defects
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                System accuracy is excellent at 98.5% - maintain current calibration
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="printReport()">
+            <i class="bi bi-printer"></i> Print
+          </button>
+          <button type="button" class="btn btn-primary" onclick="downloadReport()">
+            <i class="bi bi-download"></i> Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Custom JS -->
+  <script src="assets/js/analytics.js"></script>
+</body>
+</html>
